@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.TenantSendEmailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcTenantSendEmail">
+        <id column="id" property="id" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="email_type" property="emailType" />
+        <result column="preset_email" property="presetEmail" />
+        <result column="server_address" property="serverAddress" />
+        <result column="email_account" property="emailAccount" />
+        <result column="email_password" property="emailPassword" />
+        <result column="port" property="port" />
+        <result column="is_ssl" property="isSsl" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_at" property="createdAt" />
+        <result column="created_by_name" property="createdByName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tenant_id, email_type, preset_email, server_address, email_account, email_password, port, is_ssl, created_by, created_at, created_by_name
+    </sql>
+
+
+    <delete id="delByTenantId">
+        DELETE FROM uc_tenant_send_email WHERE tenant_id = #{tenantId}
+    </delete>
+
+    <select id="getEmailByTenantId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" ></include>
+        FROM uc_tenant_send_email
+        WHERE tenant_id = #{tenantId}
+    </select>
+
+</mapper>

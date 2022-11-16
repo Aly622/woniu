@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.UserTenaRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcUserTenaRelation">
+        <result column="created_at" property="createdAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="user_id" property="userId" />
+        <result column="is_admin" property="isAdmin" />
+    </resultMap>
+
+    <resultMap id="UserBindTenantResultMap" type="com.woniu.dto.UserBindTenantDTO">
+        <result column="tenant_id" property="tenantId" />
+        <result column="is_admin" property="isAdmin" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        created_at,
+        created_by,
+        created_by_name,
+        tenant_id,
+        user_id, is_admin
+    </sql>
+
+    <select id="selectAllTenant" parameterType="java.lang.Long" resultMap="UserBindTenantResultMap">
+        SELECT
+            tenant_id,
+            is_admin
+        FROM
+            uc_user_tena_relation
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <delete id="deleteUserTenantRelationByUserId" parameterType="java.lang.Long">
+        DELETE
+        FROM
+            uc_user_tena_relation
+        WHERE
+            user_id = #{userId}
+            AND tenant_id IN
+            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </delete>
+
+</mapper>

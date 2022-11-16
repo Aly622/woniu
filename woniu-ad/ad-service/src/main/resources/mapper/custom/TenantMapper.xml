@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.TenantMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcTenant">
+        <result column="id" property="id" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_by_name" property="updatedByName" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="description" property="description" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="status" property="status" />
+        <result column="allow_edit" property="allowEdit" />
+    </resultMap>
+
+    <resultMap id="TenantInfoResultMap" type="com.woniu.dto.TenantInfoDTO">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_by,
+        created_by_name,
+        created_at,
+        updated_by,
+        updated_by_name,
+        updated_at,
+        description,
+        name, code, status, allow_edit
+    </sql>
+
+    <select id="selectAllTenant" resultMap="TenantInfoResultMap">
+        SELECT
+            id,
+            name
+        FROM
+            uc_tenant
+        WHERE
+            is_deleted = 0
+    </select>
+
+    <select id="getTenantSideTenant" resultMap="TenantInfoResultMap">
+        SELECT
+            id,
+            name
+        FROM
+            uc_tenant
+        WHERE
+            is_deleted = 0
+            AND allow_edit = 0
+    </select>
+
+    <select id="selectAbleTenantInfoListByUserId" parameterType="java.lang.Long" resultMap="TenantInfoResultMap">
+        SELECT DISTINCT
+            ut.id,
+            ut.`name`
+        FROM
+            uc_tenant ut
+            LEFT JOIN uc_user_tena_relation uutr ON ut.id = uutr.tenant_id
+        WHERE
+            ut.STATUS = 1
+            AND ut.is_deleted = 0
+            AND uutr.user_id = #{userId}
+    </select>
+
+    <select id="selectTenantInfoListByUserId" parameterType="java.lang.Long" resultMap="TenantInfoResultMap">
+        SELECT DISTINCT
+            ut.id,
+            ut.`name`
+        FROM
+            uc_tenant ut
+            LEFT JOIN uc_user_tena_relation uutr ON ut.id = uutr.tenant_id
+            LEFT JOIN uc_user_org_relation uuor ON uutr.user_id = uuor.user_id
+            AND uutr.tenant_id = uuor.tenant_id
+            LEFT JOIN uc_org uo ON uuor.org_id = uo.id
+        WHERE
+            ut.STATUS = 1
+            AND ut.is_deleted = 0
+            AND uutr.user_id = #{userId}
+            AND uo.STATUS = 1
+    </select>
+
+</mapper>

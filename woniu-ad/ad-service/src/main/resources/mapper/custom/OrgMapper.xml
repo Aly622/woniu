@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.OrgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcOrg">
+        <result column="id" property="id" />
+        <result column="created_at" property="createdAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_by_name" property="updatedByName" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="name" property="name" />
+        <result column="parent_id" property="parentId" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <resultMap id="OrgListPageResultMap" type="com.woniu.dto.OrgListPageResultDTO">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parent_org_name" property="parentOrgName" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <resultMap id="BindUserOrgResultMap" type="com.woniu.dto.BindUserOrgDTO">
+        <result column="org_id" property="orgId" />
+        <result column="tenant_id" property="tenantId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_at,
+        created_by,
+        created_by_name,
+        updated_at,
+        updated_by,
+        updated_by_name,
+        tenant_id,
+        name, parent_id, status, remark
+    </sql>
+
+    <select id="selectOrgListForOrgTree" resultMap="BaseResultMap">
+        SELECT
+            id,
+            NAME,
+            parent_id
+        FROM
+            uc_org
+    </select>
+
+    <select id="selectAbleOrgListForOrgTree" resultMap="BaseResultMap">
+        SELECT
+            id,
+            NAME,
+            parent_id
+        FROM
+            uc_org
+        WHERE
+            status = 1
+    </select>
+
+    <select id="selectOrgListPageResult" parameterType="com.woniu.vo.OrgListPageQueryVO" resultMap="OrgListPageResultMap">
+        SELECT
+            uochild.id id,
+            uochild.NAME NAME,
+            uoparent.NAME parent_org_name,
+            uochild.STATUS
+        FROM
+            uc_org uochild
+            LEFT JOIN uc_org uoparent ON uochild.parent_id = uoparent.id
+        WHERE
+            1 = 1
+            <if test="orgName != null and orgName != ''">
+                AND uochild.NAME LIKE CONCAT( '%', #{orgName}, '%' )
+            </if>
+            <if test="orgIdList != null and orgIdList.size != 0">
+                AND uochild.id IN
+                <foreach collection="orgIdList" item="orgId" index="index" open="(" close=")" separator=",">
+                    #{orgId}
+                </foreach>
+            </if>
+    </select>
+
+    <select id="selectRootOrgIdByTenantId" parameterType="java.util.List" resultMap="BindUserOrgResultMap">
+        SELECT
+            id org_id,
+            tenant_id
+        FROM
+            uc_org
+        WHERE
+            tenant_id IN
+            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND parent_id = 0
+    </select>
+
+    <select id="selectOrgCountByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_org
+        WHERE
+            name = #{name}
+    </select>
+
+    <select id="selectOrgCountByIdAndName" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_org
+        WHERE
+            id != #{id}
+            AND name = #{name}
+    </select>
+
+</mapper>

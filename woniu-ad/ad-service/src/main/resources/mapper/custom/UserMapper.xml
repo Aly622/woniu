@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcUser">
+        <result column="id" property="id" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="created_at" property="createdAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_by_name" property="updatedByName" />
+        <result column="nick_name" property="nickName" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="head_img_url" property="headImgUrl" />
+        <result column="type" property="type" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="allow_edit" property="allowEdit" />
+    </resultMap>
+
+    <resultMap id="UserPageForManageResultMap" type="com.woniu.dto.UserPageForManageResultDTO">
+        <result column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+        <result column="type" property="type" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="status" property="status" />
+        <result column="allow_edit" property="allowEdit" />
+    </resultMap>
+
+    <resultMap id="UserInfoForManageResultMap" type="com.woniu.dto.UserInfoForManageDTO">
+        <result column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="head_img_url" property="headImgUrl" />
+        <result column="type" property="type" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <collection property="userBindTenantList" ofType="com.woniu.dto.UserBindTenantDTO">
+            <result column="tenant_id" property="tenantId" />
+            <result column="is_admin" property="isAdmin" />
+        </collection>
+    </resultMap>
+
+    <resultMap id="UserPageForTenantResultMap" type="com.woniu.dto.UserPageForTenantResultDTO" extends="UserPageForManageResultMap">
+        <result column="campaign_count" property="campaignCount" />
+        <result column="org_id" property="orgId" />
+        <result column="org_name" property="orgName" />
+    </resultMap>
+    
+    <resultMap id="UserInfoForTenantResultMap" type="com.woniu.dto.UserInfoForTenantDTO">
+        <result column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="head_img_url" property="headImgUrl" />
+        <result column="type" property="type" />
+        <result column="org_id" property="orgId" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <resultMap id="RoleInfoResultMap" type="com.woniu.dto.RoleInfoDTO">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+    </resultMap>
+
+    <resultMap id="UserNameAndNickNameResultMap" type="com.woniu.dto.UserNameAndNickNameDTO">
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        is_deleted,
+        created_at,
+        created_by,
+        created_by_name,
+        updated_at,
+        updated_by,
+        updated_by_name,
+        nick_name, user_name, password, email, mobile, head_img_url, type, status, remark, allow_edit
+    </sql>
+
+    <select id="selectUserPageForManage" parameterType="com.woniu.vo.UserPageQueryForManageVO" resultMap="UserPageForManageResultMap">
+        SELECT
+            id,
+            user_name,
+            nick_name,
+            type,
+            email,
+            mobile,
+            status,
+            allow_edit
+        FROM
+            uc_user
+        WHERE
+            is_deleted = 0
+            <if test="userName != null and userName != ''">
+                AND user_name = #{userName}
+            </if>
+        <if test="mobile != null and mobile != ''">
+            AND mobile = #{mobile}
+        </if>
+        <if test="type != null">
+            AND type = #{type}
+        </if>
+        ORDER BY
+            created_at DESC
+    </select>
+
+    <select id="selectUserInfo" parameterType="java.lang.Long" resultMap="UserInfoForManageResultMap">
+        SELECT
+            uu.id,
+            uu.user_name,
+            uu.nick_name,
+            uu.email,
+            uu.mobile,
+            uu.head_img_url,
+            uu.type,
+            uu.`status`,
+            uu.remark,
+            uutr.tenant_id,
+            uutr.is_admin
+        FROM
+            uc_user uu
+            LEFT JOIN uc_user_tena_relation uutr ON uu.id = uutr.user_id
+        WHERE
+            uu.is_deleted = 0
+            AND uu.id = #{id}
+    </select>
+
+    <select id="selectUserPageForTenant" parameterType="com.woniu.vo.UserPageQueryForTenantVO" resultMap="UserPageForTenantResultMap">
+        SELECT
+            uu.id,
+            uu.user_name,
+            uu.nick_name,
+            uu.type,
+            uu.email,
+            uu.mobile,
+            count( DISTINCT uucr.campaign_id ) campaign_count,
+            ou.id org_id,
+            ou.name org_name,
+            uu.status
+        FROM
+            uc_user uu
+            LEFT JOIN uc_user_campa_relation uucr ON uu.id = uucr.user_id
+            LEFT JOIN uc_user_org_relation uuor ON uu.id = uuor.user_id
+            LEFT JOIN uc_org ou ON uuor.org_id = ou.id
+            LEFT JOIN uc_user_tena_relation uutr ON uu.id = uutr.user_id
+        WHERE
+            uutr.tenant_id = #{tenantId}
+            <choose>
+                <when test="type == 2">
+                    <if test="orgIdList != null and orgIdList.size != 0">
+                        AND uuor.org_id IN
+                        <foreach collection="orgIdList" item="orgId" index="index" open="(" close=")" separator=",">
+                            #{orgId}
+                        </foreach>
+                    </if>
+                </when>
+                <when test="type = 3">
+                    <if test="orgId != null">
+                        AND uuor.org_id = #{orgId}
+                    </if>
+                </when>
+            </choose>
+            <if test="userName != null and userName != ''">
+                AND uu.user_name = #{userName}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND uu.mobile = #{mobile}
+            </if>
+            AND uu.type = #{type}
+            AND uu.is_deleted = 0
+        GROUP BY
+            uu.id,
+            uu.user_name,
+            uu.nick_name,
+            uu.type,
+            uu.email,
+            uu.mobile,
+            ou.id,
+            ou.name,
+            uu.status
+        ORDER BY
+            uu.created_at DESC
+    </select>
+
+    <select id="selectUserInfoForTenant" resultMap="UserInfoForTenantResultMap">
+        SELECT
+            uu.id,
+            uu.user_name,
+            uu.nick_name,
+            uu.email,
+            uu.mobile,
+            uu.head_img_url,
+            uu.type,
+            uuor.org_id,
+            uu.`status`,
+            uu.remark
+        FROM
+            uc_user uu
+            LEFT JOIN uc_user_org_relation uuor ON uu.id = uuor.user_id
+            LEFT JOIN uc_user_tena_relation uutr ON uu.id = uutr.user_id
+        WHERE
+            uu.is_deleted = 0
+            AND uu.id = #{id}
+            AND uuor.tenant_id = #{tenantId}
+            AND uutr.tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectRoleInfoByUserId" resultMap="RoleInfoResultMap">
+        SELECT
+            ur.id,
+            ur.`name`
+        FROM
+            uc_user_role_relation uurr
+            LEFT JOIN uc_role ur ON uurr.role_id = ur.id
+            AND uurr.tenant_id = ur.tenant_id
+        WHERE
+            uurr.user_id = #{id}
+            AND uurr.tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectUserCountByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            email = #{email}
+            AND is_deleted = 0
+    </select>
+
+    <select id="selectUserCountByMobile" parameterType="java.lang.String" resultType="java.lang.Integer">
+            SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            mobile = #{mobile}
+            AND is_deleted = 0
+    </select>
+
+    <select id="selectNickNameByEmail" parameterType="java.lang.String" resultMap="UserNameAndNickNameResultMap">
+        SELECT
+            nick_name,
+            user_name
+        FROM
+            uc_user
+        WHERE
+            email = #{email}
+            AND is_deleted = 0
+    </select>
+
+    <update id="updatePasswordByEmail" parameterType="com.woniu.vo.UpdatePasswordWithEmailVO">
+        UPDATE uc_user
+        SET `password` = #{password}
+        WHERE
+            email = #{email}
+            AND is_deleted = 0
+    </update>
+
+    <select id="selectPasswordById" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            `password` = #{oldPassword}
+            AND id = #{id}
+            AND is_deleted = 0
+    </select>
+
+    <update id="updatePasswordById">
+        UPDATE uc_user
+        SET `password` = #{newPassword}
+        WHERE
+            id = #{id}
+            AND is_deleted = 0
+    </update>
+
+    <select id="selectUserCountByIdAndEmail" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            email = #{email}
+            AND id != #{id}
+            AND is_deleted = 0
+    </select>
+
+    <select id="selectUserCountByIdAndMobile" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            mobile = #{mobile}
+            AND id != #{id}
+            AND is_deleted = 0
+    </select>
+
+    <select id="selectUserCountByUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            user_name = #{userName}
+            AND is_deleted = 0
+    </select>
+
+    <select id="selectUserCountByIdAndUserName" resultType="java.lang.Integer">
+        SELECT
+            count( id )
+        FROM
+            uc_user
+        WHERE
+            id != #{id}
+            AND user_name = #{userName}
+            AND is_deleted = 0
+    </select>
+
+    <select id="selectRoleIdListByUserId" resultType="java.lang.Long">
+        SELECT
+            ur.id
+        FROM
+            uc_user_role_relation uurr
+            LEFT JOIN uc_role ur ON uurr.role_id = ur.id
+            AND uurr.tenant_id = ur.tenant_id
+        WHERE
+            uurr.user_id = #{id}
+            AND uurr.tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectUserTypeByUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT
+            type
+        FROM
+            uc_user
+        WHERE
+            id = #{id}
+            AND is_deleted = 0
+    </select>
+    
+</mapper>

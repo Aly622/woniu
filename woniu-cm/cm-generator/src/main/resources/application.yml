@@ -1,0 +1,43 @@
+#mysql
+spring:
+  datasource:
+    url: jdbc:mysql://10.100.20.155:3306/diap_gc_db?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
+    username: root
+    password: root123
+    platform: mysql
+mybatisgenerator:
+  cfg:
+    author: Admin                   #作者
+    tables: gc_code_lifecycle,gc_code_external,gc_code
+    #,bc_code_package_download,bc_code_postback,bc_code_postback_file,bc_code_postback_log,bc_code_postback_task,bc_code_postback_vend,bc_code,bc_code_external,bc_code_lifecycle #,t_points_by_trans  #此处需根据具体情况生成 oa_id_user,oa_id_role,
+    # 自定义各层文件名
+    mapperName: "%sMapper"
+    serviceName: "%sService"
+    serviceImplName: "%sServiceImpl"
+    controllerName: "%sController"
+    # 数据库配置
+    driverName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root123
+    url: jdbc:mysql://10.100.20.155:3306/diap_gc_db?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
+    #自定义各层基类
+    superEntityClass: com.esmartwave.niumeng.diap.entity.SuperEntity
+    superEntityColumns: created_by,created_at,updated_by,modified_at,tenant_id,is_deleted
+    superMapperClass: com.esmartwave.niumeng.diap.dao.SuperMapper
+    #superServiceImplClass: com.dz.scrm.bc.common.base.SuperService
+    superControllerClass: com.esmartwave.niumeng.diap.controller.SuperController
+    cleanEntity: true
+    cleanMapper: true
+    #自定义各层包名
+    #moduleName: connexus-common
+    parentPackage: com.esmartwave.niumeng.diap #根包名
+    controller: controller
+    entity: entity
+    mapper: dao
+    service: service
+    serviceImpl: service.impl
+    #文件输出目录
+    outputEntityDir: /bc/bc-client/src/main/java/
+    outputDir: /bc/bc-service/src/main/java/
+    outputFile: /bc/bc-service/src/main/resources/mapper/
+   

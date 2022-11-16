@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.TenantWchatRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcTenantWchatRelation">
+        <id column="id" property="id" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="app_id" property="appId" />
+        <result column="wechat_name" property="wechatName" />
+        <result column="wechat_type_define" property="wechatTypeDefine" />
+        <result column="wechat_type" property="wechatType" />
+        <result column="open_main_body" property="openMainBody" />
+        <result column="head_img_url" property="headImgUrl" />
+        <result column="supplier_id" property="supplierId" />
+        <result column="state_name" property="stateName" />
+        <result column="state" property="state" />
+        <result column="component_app_id" property="componentAppId" />
+        <result column="created_at" property="createdAt" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="created_by" property="createdBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tenant_id, app_id, wechat_name, wechat_type_define, wechat_type, open_main_body, head_img_url, supplier_id, state_name, state, component_app_id, created_at, created_by_name, created_by
+    </sql>
+
+
+    <delete id="delByTenantId">
+        DELETE FROM uc_tenant_wchat_relation WHERE tenant_id = #{tenantId}
+    </delete>
+
+    <select id="getAuthorizaWechatByTenantId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" ></include>
+        FROM uc_tenant_wchat_relation
+        WHERE tenant_id = #{tenantId}
+    </select>
+
+</mapper>

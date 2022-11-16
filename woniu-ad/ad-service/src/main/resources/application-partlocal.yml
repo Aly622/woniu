@@ -1,0 +1,24 @@
+rc:
+  hostname: localhost:8848
+  username: nacos
+  password: nacos
+  namespace: partlocal
+ap:
+  hostname: 10.100.20.156
+  port: 8080
+rds:
+  idx: ${redis:db}
+  hostname: ${redis:hostname}
+  port: ${redis:port}
+  password: ${redis:password}
+db:
+  master:
+    hostname: ${mysql.diap.master.hostname}
+    port: ${mysql.diap.master.port}
+    username: ${mysql.diap.master.username}
+    password: ${mysql.diap.master.password}
+  slave:
+    hostname: ${mysql.diap.slave.hostname}
+    port: ${mysql.diap.slave.port}
+    username: ${mysql.diap.slave.username}
+    password: ${mysql.diap.slave.password}

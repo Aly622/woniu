@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.PermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcPermission">
+        <result column="id" property="id" />
+        <result column="created_at" property="createdAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="type" property="type" />
+        <result column="parent_id" property="parentId" />
+        <result column="url" property="url" />
+        <result column="display_order" property="displayOrder" />
+        <result column="icon" property="icon" />
+        <result column="visible" property="visible" />
+        <result column="is_tenant" property="isTenant" />
+        <result column="allow_vend" property="allowVend" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_at,
+        created_by,
+        created_by_name,
+        name, code, type, parent_id, url, display_order, icon, visible, is_tenant, allow_vend
+    </sql>
+
+    <select id="allowVendList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>
+        from uc_permission where allow_vend = 1
+    </select>
+
+    <select id="selectPermissionListByUserIdAndTenantId" resultMap="BaseResultMap">
+        SELECT DISTINCT
+            up.id,
+            up.`name`,
+            up.code,
+            up.type,
+            up.parent_id,
+            up.url,
+            up.display_order,
+            up.icon
+        FROM
+            uc_permission up
+            LEFT JOIN uc_role_perm_relation urpr ON up.id = urpr.permission_id
+            LEFT JOIN uc_role ur ON urpr.role_id = ur.id AND urpr.tenant_id = ur.tenant_id
+            LEFT JOIN uc_user_role_relation uurr ON urpr.role_id = uurr.role_id AND urpr.tenant_id = uurr.tenant_id
+        WHERE
+            uurr.user_id = #{userId}
+            AND uurr.tenant_id = #{tenantId}
+            AND ur.`status` = 1
+        ORDER BY
+            up.display_order
+    </select>
+
+    <select id="getAllPerm" resultMap="BaseResultMap">
+        SELECT DISTINCT
+            id,`name`, code, `type`, parent_id, url, display_order, icon
+        FROM
+            uc_permission
+        ORDER BY
+            display_order
+    </select>
+
+    <select id="getAllManagePermissionTree" resultMap="BaseResultMap">
+        SELECT
+            id,
+            `name`,
+            code,
+            type,
+            parent_id,
+            url,
+            display_order,
+            icon
+        FROM
+            uc_permission
+        WHERE
+            is_tenant = 0
+        ORDER BY
+            display_order
+    </select>
+
+    <select id="getAllTenantPermissionTree" resultMap="BaseResultMap">
+        SELECT
+            id,
+            `name`,
+            code,
+            type,
+            parent_id,
+            url,
+            display_order,
+            icon
+        FROM
+            uc_permission
+        WHERE
+            is_tenant = 1
+        ORDER BY
+            display_order
+    </select>
+
+</mapper>

@@ -1,0 +1,24 @@
+rc:
+  hostname: 10.100.20.155:8848
+  username: nacos
+  password: nacos
+  namespace: local
+ap:
+  hostname: 10.100.20.156
+  port: 8080
+rds:
+  idx: 0
+  hostname: 10.100.20.155
+  port: 6379
+  password: redis123
+db:
+  master:
+    hostname: 10.100.20.155
+    port: 3306
+    username: root
+    password: root123
+  slave:
+    hostname: 10.100.20.155
+    port: 3306
+    username: root
+    password: root123

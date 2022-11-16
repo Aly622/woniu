@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.custom.AuditConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.woniu.entity.UcAuditConfig">
+        <result column="id" property="id" />
+        <result column="created_at" property="createdAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_by_name" property="createdByName" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_by_name" property="updatedByName" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="name" property="name" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <resultMap id="AuditConfigResultMap" type="com.woniu.dto.AuditConfigDTO">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="remark" property="remark" />
+        <collection property="auditConfigDetailList" ofType="com.woniu.dto.AuditConfigDetailDTO">
+            <result column="role_id" property="roleId" />
+            <result column="flow_order" property="flowOrder" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_at,
+        created_by,
+        created_by_name,
+        updated_at,
+        updated_by,
+        updated_by_name,
+        tenant_id,
+        name, remark
+    </sql>
+
+    <select id="selectAuditConfigPageResult" parameterType="com.woniu.vo.AuditConfigPageQueryVO" resultMap="BaseResultMap">
+        SELECT
+            id,
+            NAME,
+            remark,
+            updated_at,
+            created_by_name
+        FROM
+            uc_audit_config
+        WHERE
+            1 = 1
+            <if test="name != null and name != ''">
+                AND NAME LIKE CONCAT('%',#{name},'%')
+            </if>
+        ORDER BY
+            created_at DESC
+    </select>
+
+    <select id="selectAuditConfigDetail" parameterType="java.lang.Long" resultMap="AuditConfigResultMap">
+        SELECT
+            uac.id,
+            uac.NAME,
+            uacd.role_id,
+            uacd.flow_order,
+            uac.remark
+        FROM
+            uc_audit_config uac
+            LEFT JOIN uc_audit_config_detail uacd ON uac.id = uacd.config_id
+            AND uac.tenant_id = uacd.tenant_id
+        WHERE
+            uac.id = #{id}
+    </select>
+
+</mapper>
