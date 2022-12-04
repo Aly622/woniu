@@ -58,11 +58,11 @@ public enum UCResponseCode implements IResponseCode{
 
     SUCCESS(0, "用户成功请求"),
     FAIL(-1, "用户请求失败");
-    private int code;
+    private long code;
     private String message;
 
     @Override
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 

@@ -1,7 +1,6 @@
 package com.woniu.dao;
 
 import com.woniu.entity.UcTenantSendEmail;
-import com.esmartwave.niumeng.diap.dao.SuperMapper;
 
 /**
  * <p>

@@ -123,19 +123,6 @@ mail:
   subjectSource: ${spring.application.name}
   enableMailNotify: "1"
   replaceAll: false
-# apollo配置
-env: DEV
-app:
-  id: ${spring.application.name}
-apollo:
-  meta: http://${ap.hostname}:${ap.port}/
-  port: ${ap.port}
-  bootstrap:
-    enabled: true
-    namespaces: application, public.database.options, public.nacos.options, public.rabbit.options, public.redis.options
-    eagerLoad:
-      enabled: true
-
 #预警邮件发送邮箱
 #sendemail:
 #  yh-email:

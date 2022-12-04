@@ -21,14 +21,14 @@ public class WebResponse<T> implements Serializable {
     @ApiModelProperty(value = "是否成功（1：成功，0：失败）")
     private Boolean isSuccess;
     @ApiModelProperty(value = "返回代码（0：成功，其他：失败）")
-    private int code;
+    private long code;
     @ApiModelProperty(value = "错误信息")
     private String message;
     @ApiModelProperty(value = "结果对象")
     private T result;
 
     @Builder  //@Builder注解修饰类时，该类将没有无参构造方法
-    public WebResponse(int code, String message, T result) {
+    public WebResponse(long code, String message, T result) {
         this.code = code;
         this.message = message;
         this.result = result;
@@ -64,7 +64,7 @@ public class WebResponse<T> implements Serializable {
      * @Param [response, prefix]
      * @return
      **/
-    public WebResponse(Integer code, String message) {
+    public WebResponse(Long code, String message) {
         this.code = code;
         this.message = message;
         this.isSuccess = successOrfail();

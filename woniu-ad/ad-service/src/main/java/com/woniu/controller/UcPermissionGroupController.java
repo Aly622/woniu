@@ -3,7 +3,7 @@ package com.woniu.controller;
 
 import com.woniu.entity.UcPermissionGroup;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.UcPermissionGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
-import com.esmartwave.niumeng.diap.controller.SuperController;
 
 import java.util.List;
 

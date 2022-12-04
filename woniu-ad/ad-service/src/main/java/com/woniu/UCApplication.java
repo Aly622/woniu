@@ -1,15 +1,13 @@
 package com.woniu;
 
-import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
-import com.esmartwave.niumeng.diap.config.DynamicsValConfig;
-import com.esmartwave.niumeng.diap.config.JwtAuthConfig;
+import com.woniu.config.DynamicsValConfig;
+import com.woniu.config.JwtAuthConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableApolloConfig
 @EnableFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient//注册到注册中心

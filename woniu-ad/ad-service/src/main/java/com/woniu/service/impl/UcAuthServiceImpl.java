@@ -1,8 +1,7 @@
 package com.woniu.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.woniu.client.UcMessageCenterClient;
-import com.esmartwave.niumeng.diap.config.JwtAuthConfig;
+import com.woniu.config.JwtAuthConfig;
 import com.woniu.dao.custom.TenantMapper;
 import com.woniu.dto.LoginResultDTO;
 import com.woniu.dto.TenantInfoDTO;
@@ -10,15 +9,14 @@ import com.woniu.entity.UcUser;
 import com.woniu.enums.EntryEnum;
 import com.woniu.enums.LoginTypeEnum;
 import com.woniu.enums.UserTypeEnum;
-import com.esmartwave.niumeng.diap.exception.ServiceException;
-import com.esmartwave.niumeng.diap.extend.TokenUser;
-import com.esmartwave.niumeng.diap.response.IResponseCode;
-import com.esmartwave.niumeng.diap.response.MessageCenterResponse;
+import com.woniu.exception.ServiceException;
+import com.woniu.extend.TokenUser;
+import com.woniu.response.IResponseCode;
 import com.woniu.response.UCResponseCode;
 import com.woniu.service.UcAuthService;
 import com.woniu.service.UcUserService;
-import com.esmartwave.niumeng.diap.utils.JWTUtils;
-import com.esmartwave.niumeng.diap.utils.MD5Utils;
+import com.woniu.utils.JWTUtils;
+import com.woniu.utils.MD5Utils;
 import com.woniu.vo.ValidateSmsAuthCodeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -46,9 +44,6 @@ public class UcAuthServiceImpl implements UcAuthService {
     @Autowired
     private UcUserService ucUserService;
 
-    @Autowired
-    private UcMessageCenterClient ucMessageCenterClient;
-
     @Override
     public LoginResultDTO login(String userName, String password, String mobile, String authCode, Integer loginType, Integer entry) {
         UcUser ucUser;
@@ -65,7 +60,7 @@ public class UcAuthServiceImpl implements UcAuthService {
             }
             ValidateSmsAuthCodeVO validateSmsAuthCode = new ValidateSmsAuthCodeVO(mobile, authCode);
             log.info("#### 校验短信验证码参数：{}", JSON.toJSONString(validateSmsAuthCode));
-            MessageCenterResponse<Boolean> response = ucMessageCenterClient.validateSmsAuthCode(validateSmsAuthCode);
+            /*MessageCenterResponse<Boolean> response = ucMessageCenterClient.validateSmsAuthCode(validateSmsAuthCode);
             log.info("#### 校验短信验证码返回值：{}", JSON.toJSONString(response));
             if(response == null || response.getIsSuccess() == null || !response.getIsSuccess()) {
                 throw new ServiceException(new IResponseCode() {
@@ -76,7 +71,7 @@ public class UcAuthServiceImpl implements UcAuthService {
                         return response.getMessage();
                     }
                 });
-            }
+            }*/
         }
         //校验账户类型是否与管理端、租户端相同，如果不同，不允许登录
         if((ucUser.getType() == EntryEnum.B_PLATFORM_END.getCode() && entry == EntryEnum.B_TENANT_END.getCode())

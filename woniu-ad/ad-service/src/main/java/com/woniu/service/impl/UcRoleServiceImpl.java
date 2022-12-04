@@ -5,20 +5,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniu.dao.custom.RoleMapper;
 import com.woniu.dao.custom.RolePermRelationMapper;
 import com.woniu.dao.custom.TenantPermRelationMapper;
-import com.esmartwave.niumeng.diap.dto.*;
 import com.woniu.dto.*;
 import com.woniu.entity.UcRole;
 import com.woniu.dao.UcRoleMapper;
 import com.woniu.entity.UcRolePermRelation;
 import com.woniu.enums.IsAdminEnum;
-import com.esmartwave.niumeng.diap.exception.ServiceException;
+import com.woniu.exception.ServiceException;
 import com.woniu.response.UCResponseCode;
 import com.woniu.service.UcRolePermRelationService;
 import com.woniu.service.UcRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.woniu.service.UcUserRoleRelationService;
-import com.esmartwave.niumeng.diap.utils.ObjectCopier;
-import com.esmartwave.niumeng.diap.vo.*;
+import com.woniu.utils.ObjectCopier;
 import com.woniu.vo.*;
 import groovy.util.logging.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -162,10 +160,6 @@ public class UcRoleServiceImpl extends ServiceImpl<UcRoleMapper, UcRole> impleme
         return rolePermRelationMapper.selectPermissionIdListByRoleId(roleId);
     }
 
-    @Override
-    public List<BindRoleUserDetailDTO> selectUserDetailList(Long roleId, Long tenantId) {
-        return roleMapper.selectUserDetailList(roleId, tenantId);
-    }
 
     @Override
     public List<RoleInfoDTO> selectAllRole(RoleQueryVO roleQuery) {

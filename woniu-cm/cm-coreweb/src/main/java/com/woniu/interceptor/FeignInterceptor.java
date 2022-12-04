@@ -6,7 +6,7 @@ package com.woniu.interceptor;
  * @描述
  */
 
-import com.esmartwave.niumeng.diap.contants.CommonConstants;
+import com.woniu.contants.CommonConstants;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

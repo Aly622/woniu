@@ -20,6 +20,20 @@ public class ServiceException extends RuntimeException {
         this.responseCode = response;
     }
 
+    public ServiceException(long code, String message) {
+        super(message);
+        this.responseCode = new IResponseCode() {
+            @Override
+            public long getCode() {
+                return code;
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+        };
+    }
 
     public ServiceException(IResponseCode response, Throwable e) {
         super(response.getMessage(), e);
@@ -35,5 +49,13 @@ public class ServiceException extends RuntimeException {
         sb.append(this.getMessage()).append("[").append(responseCode.getCode()).append("]\n");
         sb.append(super.toString());
         return sb.toString();
+    }
+
+    public IResponseCode getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(IResponseCode responseCode) {
+        this.responseCode = responseCode;
     }
 }

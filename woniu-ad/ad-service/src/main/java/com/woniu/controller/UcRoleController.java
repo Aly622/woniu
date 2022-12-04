@@ -2,15 +2,13 @@ package com.woniu.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.esmartwave.niumeng.diap.dto.*;
 import com.woniu.dto.*;
 import com.woniu.entity.UcRole;
-import com.esmartwave.niumeng.diap.extend.TokenUser;
+import com.woniu.extend.TokenUser;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.UcRoleService;
 import com.woniu.utils.SecurityUtils;
-import com.esmartwave.niumeng.diap.vo.*;
 import com.woniu.vo.*;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -164,18 +162,6 @@ public class UcRoleController extends SuperController {
         log.info("#### 根据角色ID获取权限ID列表（租户端和管理端公用）入参：id = {}", id);
         List<Long> permissionIdList = ucRoleService.getPermissionIdListByRoleId(id);
         return new WebResponse(UCResponseCode.SUCCESS, new PermissionIdListDTO(permissionIdList));
-    }
-
-    @ApiOperation(value = "根据角色ID查询绑定的用户列表（租户端）")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="id",value="角色ID",required=true),
-    })
-    @GetMapping("/getUserDetailListByRoleId/{id}")
-    public WebResponse<List<BindRoleUserDetailDTO>> getUserDetailListByRoleId(@PathVariable("id") Long id) throws Exception {
-        log.info("#### 根据角色ID查询绑定的用户列表（租户端）入参：id = {}", id);
-        TokenUser user = SecurityUtils.getUser();
-        List<BindRoleUserDetailDTO> bindRoleUserDetailList = ucRoleService.selectUserDetailList(id, user.getTenantId());
-        return new WebResponse(UCResponseCode.SUCCESS, bindRoleUserDetailList);
     }
 
     @ApiOperation(value = "查询角色（租户端和管理端公用）")

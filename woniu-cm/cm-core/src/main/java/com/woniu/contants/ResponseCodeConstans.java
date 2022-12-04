@@ -23,11 +23,11 @@ public enum ResponseCodeConstans implements IResponseCode {
 
 
     //    VIEW_EXCEPTION_CODE(-4, "-->视图校验层异常"),
-    private int code;
+    private long code;
     private String message;
 
     @Override
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 

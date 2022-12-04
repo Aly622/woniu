@@ -2,8 +2,7 @@ package com.woniu.dao.custom;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.esmartwave.niumeng.diap.dao.SuperMapper;
-import com.esmartwave.niumeng.diap.dto.*;
+import com.woniu.dao.SuperMapper;
 import com.woniu.dto.*;
 import com.woniu.entity.UcRole;
 import com.woniu.vo.RolePageQueryVO;
@@ -41,17 +40,6 @@ public interface RoleMapper extends SuperMapper<UcRole> {
     Page<RolePageForManageResultDTO> selectRolePageForManage(RolePageQueryVO rolePageQuery);
 
     /**
-     * @param roleId
-     * @param tenantId
-     * @author: mike.ma
-     * @return: java.util.List<com.esmartwave.niumeng.diap.dto.BindRoleUserDetailDTO>
-     * @desc: 根据角色ID查询绑定的用户列表
-     * @date: 2022/3/2 14:52
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    List<BindRoleUserDetailDTO> selectUserDetailList(@Param("roleId") Long roleId, @Param("tenantId") Long tenantId);
-
-    /**
      * @param roleQuery
      * @author: mike.ma
      * @return: java.util.List<com.esmartwave.niumeng.diap.dto.RoleInfoDTO>
@@ -68,16 +56,6 @@ public interface RoleMapper extends SuperMapper<UcRole> {
      * @date: 2022/4/12 09:35
      */
     List<RoleInfoDTO> selectAllAbleRole(RoleQueryVO roleQuery);
-
-    /**
-     * @param tenantIdList
-     * @author: mike.ma
-     * @return: java.util.List<com.esmartwave.niumeng.diap.dto.BindUserRoleDTO>
-     * @desc: 根据租户ID列表获取租户和admin角色ID的对应关系
-     * @date: 2022/3/4 10:15
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    List<BindUserRoleDTO> selectAdminRoleIdByTenantId(List<Long> tenantIdList);
 
     @InterceptorIgnore(tenantLine = "true")
     UcRole getAdminRole(Long tenantId);

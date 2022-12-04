@@ -16,8 +16,8 @@
 package com.woniu.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.esmartwave.niumeng.diap.contants.CommonConstants;
-import com.esmartwave.niumeng.diap.extend.TokenUser;
+import com.woniu.contants.CommonConstants;
+import com.woniu.extend.TokenUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;

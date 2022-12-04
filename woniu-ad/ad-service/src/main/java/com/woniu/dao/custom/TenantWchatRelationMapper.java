@@ -1,7 +1,7 @@
 package com.woniu.dao.custom;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.esmartwave.niumeng.diap.dao.SuperMapper;
+import com.woniu.dao.SuperMapper;
 import com.woniu.entity.UcTenantWchatRelation;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.woniu.dao.custom;
 
-import com.esmartwave.niumeng.diap.dao.SuperMapper;
+import com.woniu.dao.SuperMapper;
 import com.woniu.entity.UcOrgDetail;
 
 import java.util.List;

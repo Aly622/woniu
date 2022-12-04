@@ -1,0 +1,15 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/checkstyle-idea.xml
+.idea/compiler.xml
+.idea/inspectionProfiles/
+.idea/modules.xml
+.idea/sonarlint/
+.idea/woniu.iml
+.idea/workspace.xml
+woniu-ad/ad-client/ad-client.iml
+woniu-ad/ad-service/ad-service.iml
+woniu-ad/woniu-ad.iml
+woniu-cm/cm-core/cm-core.iml
+woniu-cm/cm-coreweb/cm-coreweb.iml
+woniu-cm/woniu-cm.iml
+woniu-demo/woniu-demo.iml

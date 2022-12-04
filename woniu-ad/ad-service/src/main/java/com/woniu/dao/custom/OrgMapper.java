@@ -2,8 +2,7 @@ package com.woniu.dao.custom;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.esmartwave.niumeng.diap.dao.SuperMapper;
-import com.woniu.dto.BindUserOrgDTO;
+import com.woniu.dao.SuperMapper;
 import com.woniu.dto.OrgListPageResultDTO;
 import com.woniu.entity.UcOrg;
 import com.woniu.vo.OrgListPageQueryVO;
@@ -47,16 +46,6 @@ public interface OrgMapper extends SuperMapper<UcOrg> {
      * @date: 2022/2/25 11:47
      */
     Page<OrgListPageResultDTO> selectOrgListPageResult(OrgListPageQueryVO orgListPageQuery);
-
-    /**
-     * @param tenantIdList
-     * @author: mike.ma
-     * @return: java.util.List<com.esmartwave.niumeng.diap.dto.BindUserOrgDTO>
-     * @desc: 根据租户ID列表获取租户和租户下的根组织ID关系
-     * @date: 2022/3/4 11:13
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    List<BindUserOrgDTO> selectRootOrgIdByTenantId(List<Long> tenantIdList);
 
     /**
      * @param name

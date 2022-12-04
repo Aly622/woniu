@@ -3,7 +3,7 @@ package com.woniu.controller;
 
 import com.woniu.entity.UcTenantSendEmail;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.UcTenantSendEmailService;
 import com.woniu.vo.TenantSendEmailVO;
 import io.swagger.annotations.ApiOperation;
@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.esmartwave.niumeng.diap.controller.SuperController;
 
 import javax.validation.Valid;
 import java.util.List;

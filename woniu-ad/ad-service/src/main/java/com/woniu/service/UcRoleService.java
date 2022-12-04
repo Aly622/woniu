@@ -1,11 +1,9 @@
 package com.woniu.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.esmartwave.niumeng.diap.dto.*;
 import com.woniu.dto.*;
 import com.woniu.entity.UcRole;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.esmartwave.niumeng.diap.vo.*;
 import com.woniu.vo.*;
 
 import java.util.List;
@@ -103,15 +101,6 @@ public interface UcRoleService extends IService<UcRole> {
      */
     List<Long> getPermissionIdListByRoleId(Long roleId);
 
-    /**
-     * @param roleId
-     * @param tenantId
-     * @author: mike.ma
-     * @return: java.util.List<com.esmartwave.niumeng.diap.dto.BindRoleUserDetailDTO>
-     * @desc: 根据角色ID查询绑定的用户列表（租户端）
-     * @date: 2022/3/2 14:53
-     */
-    List<BindRoleUserDetailDTO> selectUserDetailList(Long roleId, Long tenantId);
 
     /**
      * @param roleQuery

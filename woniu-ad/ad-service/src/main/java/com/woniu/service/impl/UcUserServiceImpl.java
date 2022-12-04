@@ -3,11 +3,6 @@ package com.woniu.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.woniu.client.UcMessageCenterClient;
-import com.esmartwave.niumeng.diap.client.VendTableClient;
-import com.esmartwave.niumeng.diap.dao.custom.*;
-import com.esmartwave.niumeng.diap.dto.*;
-import com.esmartwave.niumeng.diap.entity.*;
 import com.woniu.dao.UcUserMapper;
 import com.woniu.dao.custom.*;
 import com.woniu.dto.*;
@@ -16,19 +11,17 @@ import com.woniu.enums.EmailTemplateTypeEnum;
 import com.woniu.enums.IsAdminEnum;
 import com.woniu.enums.UserStatusEnum;
 import com.woniu.enums.UserTypeEnum;
-import com.esmartwave.niumeng.diap.exception.ServiceException;
-import com.esmartwave.niumeng.diap.response.IResponseCode;
-import com.esmartwave.niumeng.diap.response.MessageCenterResponse;
+import com.woniu.exception.ServiceException;
+import com.woniu.response.IResponseCode;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.UcUserOrgRelationService;
 import com.woniu.service.UcUserRoleRelationService;
 import com.woniu.service.UcUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.woniu.service.UcUserTenaRelationService;
-import com.esmartwave.niumeng.diap.utils.MD5Utils;
-import com.esmartwave.niumeng.diap.utils.ObjectCopier;
-import com.esmartwave.niumeng.diap.vo.*;
+import com.woniu.utils.MD5Utils;
+import com.woniu.utils.ObjectCopier;
 import com.woniu.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -63,9 +56,6 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
     private OrgMapper orgMapper;
 
     @Autowired
-    private VendTableClient vendTableClient;
-
-    @Autowired
     private UserTenaRelationMapper userTenaRelationMapper;
 
     @Autowired
@@ -88,9 +78,6 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
 
     @Autowired
     private UcUserOrgRelationService ucUserOrgRelationService;
-
-    @Autowired
-    private UcMessageCenterClient ucMessageCenterClient;
 
     @Override
     public Page<UserPageForManageResultDTO> selectUserPageForManage(UserPageQueryForManageVO userPageQueryForManage) {
@@ -240,15 +227,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
             if(CollectionUtils.isNotEmpty(page.getRecords())) {
                 List<Long> vendIdList = page.getRecords().stream().map(userInfo -> userInfo.getVendId()).collect(Collectors.toList());
                 if(CollectionUtils.isNotEmpty(vendIdList)) {
-                    List<VendInfoDTO> vendInfoList = getResponseResult(vendTableClient.getVendInfoListByVendIdList(new GetVendInfoListVO(vendIdList, tenantId)));
-                    if(CollectionUtils.isNotEmpty(vendInfoList)) {
-                        vendInfoList.stream().flatMap(vendInfo ->
-                                page.getRecords().stream().filter(userInfo ->
-                                        vendInfo.getId().equals(userInfo.getVendId())).map(userInfo -> {
-                                            userInfo.setOrgName(vendInfo.getName());
-                                            return userInfo;
-                                        })).collect(Collectors.toList());
-                    }
+
                 }
             }
             return page;
@@ -367,7 +346,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
         keyValuePairs.put("USERNAME", userNameAndNickName.getUserName());
         SendEmailVO sendEmail = new SendEmailVO(email, EmailTemplateTypeEnum.FORGET_PASSWORD.getCode(), keyValuePairs);
         log.info("#### 发送邮箱验证码参数：{}", JSON.toJSONString(sendEmail));
-        MessageCenterResponse<Boolean> response = ucMessageCenterClient.sendEmail(sendEmail);
+        /*MessageCenterResponse<Boolean> response = ucMessageCenterClient.sendEmail(sendEmail);
         log.info("#### 发送邮箱验证码返回值：{}", JSON.toJSONString(response));
         if(response != null && response.getIsSuccess() != null && response.getIsSuccess()) {
             return true;
@@ -380,14 +359,15 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
                     return response.getMessage();
                 }
             });
-        }
+        }*/
+        return null;
     }
 
     @Override
     public Boolean updatePasswordByEmail(UpdatePasswordWithEmailVO updatePasswordWithEmail) {
         //校验邮箱验证码
         log.info("#### 校验邮箱验证码参数：{}", JSON.toJSONString(updatePasswordWithEmail));
-        MessageCenterResponse<Boolean> response = ucMessageCenterClient.validateAuthCode(new ValidateAuthCodeVO(updatePasswordWithEmail.getEmail(), updatePasswordWithEmail.getVerificationCode()));
+        /*MessageCenterResponse<Boolean> response = ucMessageCenterClient.validateAuthCode(new ValidateAuthCodeVO(updatePasswordWithEmail.getEmail(), updatePasswordWithEmail.getVerificationCode()));
         log.info("#### 校验邮箱验证码返回值：{}", JSON.toJSONString(response));
         if(response == null || response.getIsSuccess() == null || !response.getIsSuccess()) {
             throw new ServiceException(new IResponseCode() {
@@ -398,7 +378,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
                     return response.getMessage();
                 }
             });
-        }
+        }*/
         updatePasswordWithEmail.setPassword(MD5Utils.stringToMD5(updatePasswordWithEmail.getPassword()));
         userMapper.updatePasswordByEmail(updatePasswordWithEmail);
         return true;
@@ -504,7 +484,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
      */
     private void saveUserRootOrgRelation(Long userId, List<UserBindTenantVO> userBindTenantList) {
         if(CollectionUtils.isNotEmpty(userBindTenantList)) {
-            List<UcUserOrgRelation> ucUserOrgRelationList = new ArrayList<>();
+            /*List<UcUserOrgRelation> ucUserOrgRelationList = new ArrayList<>();
             List<BindUserOrgDTO> bindUserOrgList = orgMapper.selectRootOrgIdByTenantId(userBindTenantList.stream().map(userBindTenant -> userBindTenant.getTenantId()).collect(Collectors.toList()));
             if(CollectionUtils.isEmpty(bindUserOrgList)) {
                 throw new ServiceException(UCResponseCode.TENANT_NOT_HAVE_ROOT_ORG);
@@ -518,7 +498,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
             }
             if(CollectionUtils.isNotEmpty(ucUserOrgRelationList)) {
                 ucUserOrgRelationService.saveBatch(ucUserOrgRelationList);
-            }
+            }*/
         }
     }
 
@@ -534,7 +514,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
         if(CollectionUtils.isNotEmpty(userBindTenantList)) {
             userBindTenantList = userBindTenantList.stream().filter(userBindTenant -> userBindTenant.getIsAdmin().equals(IsAdminEnum.IS_ADMIN_YES.getCode())).collect(Collectors.toList());
             if(CollectionUtils.isNotEmpty(userBindTenantList)) {
-                List<BindUserRoleDTO> bindUserRoleList = roleMapper.selectAdminRoleIdByTenantId(userBindTenantList.stream().map(userBindTenant -> userBindTenant.getTenantId()).collect(Collectors.toList()));
+                /*List<BindUserRoleDTO> bindUserRoleList = roleMapper.selectAdminRoleIdByTenantId(userBindTenantList.stream().map(userBindTenant -> userBindTenant.getTenantId()).collect(Collectors.toList()));
                 if(CollectionUtils.isEmpty(bindUserRoleList)) {
                     throw new ServiceException(UCResponseCode.TENANT_NOT_HAVE_ADMIN_ROLE);
                 }
@@ -548,7 +528,7 @@ public class UcUserServiceImpl extends ServiceImpl<UcUserMapper, UcUser> impleme
                 }
                 if(CollectionUtils.isNotEmpty(ucUserRoleRelationList)) {
                     ucUserRoleRelationService.saveBatch(ucUserRoleRelationList);
-                }
+                }*/
             }
         }
     }

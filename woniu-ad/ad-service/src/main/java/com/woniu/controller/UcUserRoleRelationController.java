@@ -4,7 +4,6 @@ package com.woniu.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
-import com.esmartwave.niumeng.diap.controller.SuperController;
 
 /**
  * <p>

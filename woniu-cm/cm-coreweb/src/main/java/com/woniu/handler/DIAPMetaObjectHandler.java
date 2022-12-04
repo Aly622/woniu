@@ -1,8 +1,8 @@
 package com.woniu.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.esmartwave.niumeng.diap.contants.CommonConstants;
-import com.esmartwave.niumeng.diap.extend.TokenUser;
+import com.woniu.contants.CommonConstants;
+import com.woniu.extend.TokenUser;
 import com.woniu.utils.SecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;

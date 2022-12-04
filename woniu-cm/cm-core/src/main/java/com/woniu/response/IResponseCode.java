@@ -13,7 +13,7 @@ package com.woniu.response;
  * 5xx：服务器执行一个完全有效请求失败
  **/
 public interface IResponseCode {
-    int getCode();
+    long getCode();
 
     String getMessage();
 }

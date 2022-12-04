@@ -1,12 +1,10 @@
 package com.woniu.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.woniu.client.UcMessageCenterClient;
 import com.woniu.entity.UcUser;
 import com.woniu.enums.SmsTemplateTypeEnum;
-import com.esmartwave.niumeng.diap.exception.ServiceException;
-import com.esmartwave.niumeng.diap.response.IResponseCode;
-import com.esmartwave.niumeng.diap.response.MessageCenterResponse;
+import com.woniu.exception.ServiceException;
+import com.woniu.response.IResponseCode;
 import com.woniu.response.UCResponseCode;
 import com.woniu.service.SmsVerificationCodeService;
 import com.woniu.service.UcUserService;
@@ -26,9 +24,6 @@ import org.springframework.stereotype.Service;
 public class SmsVerificationCodeServiceImpl implements SmsVerificationCodeService {
 
     @Autowired
-    private UcMessageCenterClient ucMessageCenterClient;
-
-    @Autowired
     private UcUserService ucUserService;
 
     @Override
@@ -39,7 +34,7 @@ public class SmsVerificationCodeServiceImpl implements SmsVerificationCodeServic
         }
         SendSmsVO sendSms = new SendSmsVO(SmsTemplateTypeEnum.VERIFICATION_CODE.getCode(), mobile);
         log.info("#### 发送短信验证码参数：{}", JSON.toJSONString(sendSms));
-        MessageCenterResponse<Boolean> response = ucMessageCenterClient.sendSms(sendSms);
+        /*MessageCenterResponse<Boolean> response = ucMessageCenterClient.sendSms(sendSms);
         log.info("#### 发送短信验证码返回值：{}", JSON.toJSONString(response));
         if(response == null || response.getIsSuccess() == null || !response.getIsSuccess()) {
             throw new ServiceException(new IResponseCode() {
@@ -50,7 +45,7 @@ public class SmsVerificationCodeServiceImpl implements SmsVerificationCodeServic
                     return response.getMessage();
                 }
             });
-        }
+        }*/
         return true;
     }
 

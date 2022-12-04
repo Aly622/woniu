@@ -2,7 +2,6 @@ package com.woniu.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.esmartwave.niumeng.diap.entity.SuperEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

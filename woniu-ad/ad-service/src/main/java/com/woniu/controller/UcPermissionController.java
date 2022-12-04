@@ -2,9 +2,9 @@ package com.woniu.controller;
 
 
 import com.woniu.dto.PermissionTreeForLoginDTO;
-import com.esmartwave.niumeng.diap.extend.TokenUser;
+import com.woniu.extend.TokenUser;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.UcPermissionService;
 import com.woniu.utils.SecurityUtils;
 import io.swagger.annotations.ApiOperation;

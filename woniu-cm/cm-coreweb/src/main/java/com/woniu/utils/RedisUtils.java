@@ -2,7 +2,6 @@ package com.woniu.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -93,7 +92,7 @@ public class RedisUtils {
 			if (key.length == 1) {
 				redisTemplate.delete(key[0]);
 			} else {
-				redisTemplate.delete(CollectionUtils.arrayToList(key));
+				redisTemplate.delete((Collection<String>) CollectionUtils.arrayToList(key));
 			}
 		}
 	}
@@ -751,8 +750,8 @@ public class RedisUtils {
 	/**
 	 * 所有给定集合的并集
 	 * 
-	 * @param sourceKey
-	 * @param targetKey
+	 * @param key1
+	 * @param key2
 	 * @param destKey
 	 * @return
 	 */
@@ -769,8 +768,8 @@ public class RedisUtils {
 	/**
 	 * 所有给定集合之间的差集
 	 * 
-	 * @param sourceKey
-	 * @param targetKey
+	 * @param key1
+	 * @param key2
 	 * @param destKey
 	 * @return
 	 */
@@ -809,7 +808,7 @@ public class RedisUtils {
 	 * 批量zadd
 	 * 
 	 * @param key
-	 * @param typedTuples :DefaultTypedTuple
+	 * @param score :DefaultTypedTuple
 	 * @return
 	 */
 	public boolean zAdd(String key, String value, double score) {
@@ -918,15 +917,10 @@ public class RedisUtils {
 				keys.add(new StringRedisSerializer().deserialize(rs.next()));
 			}
 			rs.close();
-		} catch (IOException e) {
-			log.error("#### redisScan patternKey:{} has error.", patternKey, e);
 		} finally {
-			if (rs != null)
-				try {
-					rs.close();
-				} catch (IOException e) {
-					log.error("#### redisCursor close has error.", e);
-				}
+			if (rs != null) {
+                rs.close();
+            }
 		}
 		return keys;
 	}

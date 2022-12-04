@@ -6,7 +6,7 @@ import com.woniu.dto.OrgListPageResultDTO;
 import com.woniu.dto.OrgTreeResultDTO;
 import com.woniu.entity.UcOrg;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.UcOrgService;
 import com.woniu.vo.CreateOrgVO;
 import com.woniu.vo.OrgListPageQueryVO;

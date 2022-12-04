@@ -2,7 +2,7 @@ package com.woniu.controller;
 
 import com.woniu.dto.VerifiCodeDTO;
 import com.woniu.response.UCResponseCode;
-import com.esmartwave.niumeng.diap.response.WebResponse;
+import com.woniu.response.WebResponse;
 import com.woniu.service.SmsVerificationCodeService;
 import com.woniu.vo.SendSmsVeriCodeVO;
 import io.swagger.annotations.ApiOperation;

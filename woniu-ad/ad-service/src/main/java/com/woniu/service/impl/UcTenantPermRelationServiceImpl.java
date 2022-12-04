@@ -8,7 +8,7 @@ import com.woniu.entity.UcRole;
 import com.woniu.entity.UcRolePermRelation;
 import com.woniu.entity.UcTenantPermRelation;
 import com.woniu.dao.UcTenantPermRelationMapper;
-import com.esmartwave.niumeng.diap.exception.ServiceException;
+import com.woniu.exception.ServiceException;
 import com.woniu.response.UCResponseCode;
 import com.woniu.service.UcRolePermRelationService;
 import com.woniu.service.UcTenantPermRelationService;

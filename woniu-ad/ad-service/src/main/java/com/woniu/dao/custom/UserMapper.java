@@ -2,8 +2,7 @@ package com.woniu.dao.custom;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.esmartwave.niumeng.diap.dao.SuperMapper;
-import com.esmartwave.niumeng.diap.dto.*;
+import com.woniu.dao.SuperMapper;
 import com.woniu.dto.*;
 import com.woniu.entity.UcUser;
 import com.woniu.vo.UpdatePasswordWithEmailVO;

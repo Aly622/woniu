@@ -25,7 +25,7 @@ import java.util.List;
  * @Description TODO
  * @createTime 2022年02月18日 10:46:00
  */
-@MapperScan("com.esmartwave.niumeng.diap.dao")
+@MapperScan("com.woniu.dao")
 public class MyBatisPlusConfig {
 
     @Autowired

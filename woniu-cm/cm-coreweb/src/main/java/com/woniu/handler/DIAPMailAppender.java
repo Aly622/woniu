@@ -1,7 +1,6 @@
 package com.woniu.handler;
-
-import com.esmartwave.niumeng.diap.config.DynamicsValConfig;
-import com.esmartwave.niumeng.diap.contants.CommonConstants;
+import com.woniu.config.DynamicsValConfig;
+import com.woniu.contants.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Level;
