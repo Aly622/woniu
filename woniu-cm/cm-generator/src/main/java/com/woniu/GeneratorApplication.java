@@ -1,8 +1,8 @@
 package com.woniu;
 
-import com.esmartwave.niumeng.diap.utils.SpringAppContextUtils;
 import com.woniu.mybatisplus.CodeGenerator;
 import com.woniu.mybatisplus.MyBatisPropertyConfig;
+import com.woniu.utils.SpringAppContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

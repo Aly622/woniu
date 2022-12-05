@@ -10,8 +10,11 @@
     <artifactId>cm-core</artifactId>
     <description>公共核心模块</description>
     <packaging>jar</packaging>
+
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
     <dependencies>

@@ -41,7 +41,7 @@
             <version>2.0</version>
         </dependency>
         <dependency>
-            <groupId>com.esmartwave.niumeng</groupId>
+            <groupId>com.woniu</groupId>
             <artifactId>cm-core</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>

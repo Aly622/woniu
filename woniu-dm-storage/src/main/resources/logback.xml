@@ -22,7 +22,7 @@
     </appender>
 
     <!-- json数据格式追加器 -->
-    <appender name = "STASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--    <appender name = "STASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
            <customFields>{"moduleName":"debezium"}</customFields>
            <includeCallerData>true</includeCallerData>          
@@ -35,7 +35,7 @@
             <fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/stash-log.log</fileNamePattern>
             <maxHistory>${maxHistory}</maxHistory>
         </rollingPolicy>
-    </appender>
+    </appender>-->
 
     <!-- ERROR级别日志 -->
     <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender-->
@@ -172,6 +172,6 @@
         <appender-ref ref="WARN"/>
         <appender-ref ref="DEBUG"/>
         <appender-ref ref="TRACE"/>
-        <appender-ref ref="STASH"/>
+       <!-- <appender-ref ref="STASH"/>-->
     </root>
 </configuration>
