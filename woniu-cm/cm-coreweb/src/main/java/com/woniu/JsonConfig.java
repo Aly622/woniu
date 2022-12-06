@@ -1,4 +1,4 @@
-package com.woniu.config;
+package com.woniu;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;

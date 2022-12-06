@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.woniu.config;
+package com.woniu;
 
 import com.woniu.log.SysLogAspect;
 import com.woniu.log.event.AbstractSysLogListener;

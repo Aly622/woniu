@@ -1,4 +1,4 @@
-package com.woniu.config;
+package com.woniu;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

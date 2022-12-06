@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.woniu.config.MyBatisPlusConfig,\
-com.woniu.config.RedisConfig,\
-com.woniu.config.SysLogConfig
+MyBatisPlusConfig,\
+RedisConfig,\
+SysLogConfig

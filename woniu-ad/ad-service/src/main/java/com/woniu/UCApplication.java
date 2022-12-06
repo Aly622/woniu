@@ -1,7 +1,5 @@
 package com.woniu;
 
-import com.woniu.config.DynamicsValConfig;
-import com.woniu.config.JwtAuthConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

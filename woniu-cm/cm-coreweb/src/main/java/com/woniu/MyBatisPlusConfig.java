@@ -1,4 +1,4 @@
-package com.woniu.config;
+package com.woniu;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;

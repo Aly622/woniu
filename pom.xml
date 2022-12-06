@@ -20,6 +20,7 @@
         <module>woniu-dm-business</module>
         <module>woniu-dm-order</module>
         <module>woniu-dm-storage</module>
+        <module>woniu-gw</module>
     </modules>
 
     <properties>
@@ -45,7 +46,7 @@
         <mybatisplus.version>3.4.0</mybatisplus.version>
         <shardingJdbc.version>4.1.0</shardingJdbc.version>
         <druid.version>1.2.5</druid.version>
-        <commons-pool2.version>2.6.2</commons-pool2.version>
+     <!--   <commons-pool2.version>2.6.2</commons-pool2.version>-->
         <commons-lang3.version>3.8.1</commons-lang3.version>
         <commons-collection.version>4.1</commons-collection.version>
         <xxljob.version>2.3.0</xxljob.version>
@@ -68,6 +69,11 @@
                     <groupId>com.alibaba.nacos</groupId>
                     <artifactId>nacos-client</artifactId>
                 </exclusion>
+                <!--  Hocyon.M2版本之后不再使用ribbon而使用loadbalancer 不使用Ribbon 进行客户端负载均衡-->
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -86,6 +92,11 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+            <version>${spring.cloud.component.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -170,7 +181,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -227,16 +237,16 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
             <!--amqp的起步依赖-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-pool2</artifactId>
-                <version>${commons-pool2.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -247,16 +257,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-sleuth</artifactId>
                 <version>${spring.cloud.component.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-                <version>${spring.cloud.ribbon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-                <version>${spring.cloud.ribbon.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

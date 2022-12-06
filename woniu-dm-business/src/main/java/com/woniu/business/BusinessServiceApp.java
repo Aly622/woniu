@@ -2,6 +2,7 @@ package com.woniu.business;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
@@ -13,7 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @date 2021/2/25 3:53 下午
  * @company 数海掌讯
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableFeignClients
 @EnableDiscoveryClient
 public class BusinessServiceApp {

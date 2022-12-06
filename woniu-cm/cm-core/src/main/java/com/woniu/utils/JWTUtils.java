@@ -1,7 +1,7 @@
 package com.woniu.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.woniu.config.JwtAuthConfig;
+import com.woniu.JwtAuthConfig;
 import com.woniu.extend.TokenUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

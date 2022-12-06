@@ -1,7 +1,7 @@
 package com.woniu.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.woniu.config.JwtAuthConfig;
+import com.woniu.JwtAuthConfig;
 import com.woniu.dao.custom.TenantMapper;
 import com.woniu.dto.LoginResultDTO;
 import com.woniu.dto.TenantInfoDTO;
@@ -11,7 +11,6 @@ import com.woniu.enums.LoginTypeEnum;
 import com.woniu.enums.UserTypeEnum;
 import com.woniu.exception.ServiceException;
 import com.woniu.extend.TokenUser;
-import com.woniu.response.IResponseCode;
 import com.woniu.response.UCResponseCode;
 import com.woniu.service.UcAuthService;
 import com.woniu.service.UcUserService;

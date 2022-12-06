@@ -1,4 +1,4 @@
-package com.woniu.config;
+package com.woniu;
 
 import lombok.Data;
 import lombok.Getter;
