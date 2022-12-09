@@ -9,10 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * 描述：
  *
- * @author 含光
- * @email jarvan_best@163.com
- * @date 2021/2/25 3:53 下午
- * @company 数海掌讯
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableFeignClients

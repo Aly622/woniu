@@ -6,23 +6,13 @@ spring:
     name: order-service
   main:
     allow-bean-definition-overriding: true
+    # 允许循环依赖，避免启动时"com.alibaba.cloud.seata.rest.SeataRestTemplateAutoConfiguration"循环依赖报错
+    allow-circular-references: true
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848
       username: nacos
       password: nacos
-      config:
-        # nacos中配置文件的读取方式：${spring.application.name}-${spring.profile.active}.${spring.cloud.nacos.config.file-extension}
-        # 默认Nacos的配置文件会覆盖本地的配置文件
-        file-extension: yml # 配置文件后缀
-        enabled: true
-        prefix: mm
-        shared-configs[0]:
-          data-id: common-config.yml
-          refresh: true
-      discovery:
-        namespace: public #b2d90f05-6fb6-4735-a1c7-c4ed2e4587d2 # 命名空间（对应开发环境）
-        #group: springcloudalibaba # 所属分组（对应开发项目的别名）
     # TODO 负载均衡
     loadbalancer:
       enabled: true # 默认开启loadbalancer
