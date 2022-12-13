@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: storage-service
+    name: gateway
   main:
     allow-bean-definition-overriding: true
   cloud:
@@ -23,6 +23,44 @@ spring:
       discovery:
         namespace: public #b2d90f05-6fb6-4735-a1c7-c4ed2e4587d2 # 命名空间（对应开发环境）
         #group: springcloudalibaba # 所属分组（对应开发项目的别名）
+    gateway:
+      discovery:
+        enabled: false
+    sentinel:
+      transport:
+        dashboard: 10.100.20.166:8989  #Sentinel 控制台地址
+        port: 8989  #客户端监控API的端口
+      enabled: true
+      eager: true #取消Sentinel控制台懒加载
+      datasource:
+        api:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            namespace: "****************"
+            # 组名 默认 DEFAULT_GROUP
+            group-id: 'SENTINEL_GROUP'
+            # Nacos 中配置的Id
+            data-id: ${spring.application.name}-api-rules
+            # RuleType
+            rule-type: gw-api-group
+            # 默认就是Json
+            data-type: 'json'
+        # 自定义命名
+        flow:
+          # 支持多种持久化数据源：file、nacos、zookeeper、apollo、redis、consul
+          nacos:
+            # 配置类com.alibaba.cloud.sentinel.datasource.config.NacosDataSourceProperties
+            # 连接地址
+            server-addr: 127.0.0.1:8848
+            namespace: "****************"
+            # 组名 默认 DEFAULT_GROUP
+            group-id: 'SENTINEL_GROUP'
+            # Nacos 中配置的Id
+            data-id: ${spring.application.name}-flow-rules
+            # RuleType
+            rule-type: gw-flow
+            # 默认就是Json
+            data-type: 'json'
     # TODO 负载均衡
     loadbalancer:
       enabled: true # 默认开启loadbalancer

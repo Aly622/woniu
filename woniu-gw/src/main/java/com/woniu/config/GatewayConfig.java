@@ -9,12 +9,17 @@ package com.woniu.config;
  */
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
+import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
 import com.woniu.handler.SentinelFallbackHandler;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.web.reactive.result.view.ViewResolver;
+
+import java.util.List;
 
 /**
  * 网关限流配置
@@ -22,6 +27,19 @@ import org.springframework.core.annotation.Order;
 @Configuration
 public class GatewayConfig
 {
+    private final List<ViewResolver> viewResolvers;
+    private final ServerCodecConfigurer serverCodecConfigurer;
+
+    public GatewayConfig(List<ViewResolver> viewResolvers, ServerCodecConfigurer serverCodecConfigurer) {
+        this.viewResolvers = viewResolvers;
+        this.serverCodecConfigurer = serverCodecConfigurer;
+    }
+
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SentinelGatewayBlockExceptionHandler sentinelGatewayBlockExceptionHandler() {
+        return new SentinelGatewayBlockExceptionHandler(viewResolvers, serverCodecConfigurer);
+    }
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SentinelFallbackHandler sentinelGatewayExceptionHandler()
